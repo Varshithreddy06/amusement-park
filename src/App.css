@@ -1,0 +1,74 @@
+body {
+  background-color: powderblue;
+  overflow-x: hidden !important;
+}
+
+.white-color {
+  color: "#FFFFFF" !important;
+}
+
+.primary-color {
+  color: #011e31 !important;
+}
+
+.secondary-color {
+  color: #e8872a !important;
+}
+
+.bg-primary {
+  background-color: #011e31 !important;
+  color: white !important;
+  border: 0;
+}
+
+.bg-secondary {
+  background-color: #e8872a !important;
+}
+
+.login {
+  background-image: url("/public/img/Login.png");
+}
+
+.register {
+  background-image: url("/public/img/Register.png");
+}
+
+.login-card {
+  margin-top: 150px;
+  height: 450px;
+  min-width: 400px;
+  max-width: 600px;
+  border: 1px solid #011e31;
+}
+
+.register-card {
+  margin-top: 100px;
+  height: 650px;
+  min-width: 400px;
+  max-width: 600px;
+  border: 1px solid #011e31;
+}
+
+.dashboard {
+  padding-top: 130px !important;
+}
+
+.dashboard .card {
+  overflow: hidden;
+}
+
+.dashboard .card img {
+  height: 300px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.dashboard .rides:hover img {
+  transform: scaleX(1.2);
+}
+
+.add-ride,
+.edit-ride,
+.faq {
+  padding-top: 130px !important;
+}
