@@ -7,6 +7,8 @@ import Register from "./components/Register";
 import Logout from "./components/Logout";
 import Dashboard from "./components/Dashboard";
 import ViewAllRides from "./components/ViewAllRides";
+import AddRide from "./components/AddRide";
+import EditRide from "./components/EditRide";
 
 import ProtectedRoute from "./routing/ProtectedRoute";
 
@@ -17,31 +19,6 @@ function App() {
   const [user, setUser] = useState({});
 
   const [rides, setRides] = useState([]);
-
-  const [faqs, setFaqs] = useState([
-    {
-      question: "What are the park opening hours?",
-      answer: "The park is open from 9 AM to 9 PM daily.",
-    },
-    {
-      question: "Are there age restrictions for rides?",
-      answer:
-        "Yes, age restrictions vary by ride. Please check the ride details.",
-    },
-    {
-      question: "Can I bring food and drinks into the park?",
-      answer: "No, outside food and drinks are not allowed in the park.",
-    },
-    {
-      question: "Is there a lost and found service?",
-      answer: "Yes, please visit Guest Services for lost items.",
-    },
-    {
-      question: "What should I do in case of an emergency?",
-      answer:
-        "Please contact a park staff member or use emergency phones located throughout the park.",
-    },
-  ]);
 
   const loadRides = async () => {
     const dbRef = ref(db, "rides");
@@ -59,25 +36,6 @@ function App() {
       setRides(tempRides);
     } else {
       setRides([]);
-    }
-  };
-
-  const loadFAQ = async () => {
-    const dbRef = ref(db, "faq");
-    const snapshot = await get(dbRef);
-    if (snapshot.exists()) {
-      const faq = snapshot.val();
-
-      const tempFAQ = Object.keys(faq).map((id) => {
-        return {
-          ...faq[id],
-          id,
-        };
-      });
-
-      setFaqs(tempFAQ);
-    } else {
-      setFaqs([]);
     }
   };
 
@@ -120,6 +78,24 @@ function App() {
           element={
             <ProtectedRoute user={user}>
               <ViewAllRides user={user} rides={rides} setRides={setRides} />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/add-ride"
+          element={
+            <ProtectedRoute user={user}>
+              <AddRide user={user} setRides={setRides} loadRides={loadRides} />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/edit-ride/:id"
+          element={
+            <ProtectedRoute user={user}>
+              <EditRide user={user} rides={rides} setRides={setRides} />
             </ProtectedRoute>
           }
         />
