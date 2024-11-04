@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { db } from "../firebase/config";
 import { ref, remove } from "firebase/database";
 
-const ViewAllPackages = ({ user, packages, setPackages }) => {
+const ViewAllPackages = ({
+  user,
+  packages,
+  setPackages,
+  rides,
+  loadPackages,
+  loadRides,
+}) => {
   const [showModal, setShowModal] = useState(false);
   const [packageToDelete, setPackageToDelete] = useState(null);
 
@@ -17,7 +24,6 @@ const ViewAllPackages = ({ user, packages, setPackages }) => {
     if (packageToDelete) {
       const dbRef = ref(db, "packages/" + packageToDelete.id);
       await remove(dbRef);
-
       setPackages((prevPackages) =>
         prevPackages.filter((pkg) => pkg.id !== packageToDelete.id)
       );
@@ -29,6 +35,11 @@ const ViewAllPackages = ({ user, packages, setPackages }) => {
     setShowModal(false);
     setPackageToDelete(null);
   };
+
+  useEffect(() => {
+    loadPackages();
+    loadRides();
+  }, []);
 
   return (
     <Container className="p-5 dashboard">
@@ -55,21 +66,36 @@ const ViewAllPackages = ({ user, packages, setPackages }) => {
                 <Card.Title className="d-flex justify-content-between align-items-center">
                   {pkg.name}
                 </Card.Title>
-                <Card.Text className="text-muted">
-                  {pkg.description}
-                  {pkg.name === "Group Package" && (
-                    <span className="text-muted d-block mt-2">
-                      <i className="fa-solid fa-users secondary-color"></i>{" "}
-                      Limit: 10 people
-                    </span>
-                  )}
+                <Card.Text className="text-muted">{pkg.description}</Card.Text>
+                <Card.Text className="d-flex align-items-center">
+                  <i
+                    className="fa-solid fa-plane-departure me-2 secondary-color"
+                    style={{ marginRight: "8px" }}
+                  ></i>
+                  <strong className="me-1">Rides:</strong>
+                  <div>
+                    {pkg.rides.map((rideId, index) => {
+                      const ride = rides.find((r) => r.id === rideId);
+                      return ride ? (
+                        <span
+                          key={rideId}
+                          className={index > 1 ? "d-inline" : ""}
+                        >
+                          {ride.name}
+                          {index !== pkg.rides.length - 1 && (
+                            <span className="me-1">,</span>
+                          )}
+                        </span>
+                      ) : null;
+                    })}
+                  </div>
                 </Card.Text>
                 <Card.Text className="d-flex align-items-center">
-                  <i className="fa-solid fa-dollar-sign me-2 secondary-color"></i>{" "}
+                  <i className="fa-solid fa-dollar-sign me-2 secondary-color"></i>
                   <strong className="me-1">Price:</strong> {pkg.price}
                 </Card.Text>
                 <Card.Text className="d-flex align-items-center">
-                  <i className="fa-solid fa-clock me-2 secondary-color"></i>{" "}
+                  <i className="fa-solid fa-clock me-2 secondary-color"></i>
                   <strong className="me-1">Duration:</strong> {pkg.duration}
                 </Card.Text>
                 {user.role === "admin" && (

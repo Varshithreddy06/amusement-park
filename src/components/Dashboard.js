@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Row,
@@ -11,7 +11,7 @@ import {
 import { db } from "../firebase/config";
 import { get, ref } from "firebase/database";
 
-function Dashboard({ user, rides, setRides, loadRides }) {
+function Dashboard({ user, rides, setRides, loadRides, loadPackages }) {
   const [show, setShow] = useState(false);
   const [selectedRide, setSelectedRide] = useState(null);
 
@@ -22,7 +22,10 @@ function Dashboard({ user, rides, setRides, loadRides }) {
     setShow(true);
   };
 
-  loadRides();
+  useEffect(() => {
+    loadRides();
+    loadPackages();
+  }, []);
 
   return (
     <Container fluid className="dashboard p-0 m-0">

@@ -33,28 +33,23 @@ const Login = ({ user, setUser }) => {
     const dbRef = ref(db, "users");
     const snapshot = await get(dbRef);
     if (snapshot.exists()) {
-      const users = Object.values(snapshot.val());
+      const users = snapshot.val();
 
-      for (let i = 0; i < users.length; i++) {
+      for (let id in users) {
         if (
-          users[i].email === form.email &&
-          users[i].password === form.password
+          users[id].email === form.email &&
+          users[id].password === form.password
         ) {
           setUser({
-            name: users[i].name,
-            email: users[i].email,
-            dateOfBirth: users[i].dateOfBirth,
-            role: users[i].role,
-          });
-
-          console.log({
-            name: users[i].name,
-            email: users[i].email,
-            dateOfBirth: users[i].dateOfBirth,
-            role: users[i].role,
+            id, // Adding the user ID here
+            name: users[id].name,
+            email: users[id].email,
+            dateOfBirth: users[id].dateOfBirth,
+            role: users[id].role,
           });
 
           setRedirect(true);
+          break;
         }
       }
     }

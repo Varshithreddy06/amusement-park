@@ -69,6 +69,11 @@ body {
 
 .add-ride,
 .edit-ride,
-.faq {
-  padding-top: 130px !important; 
+.faq,
+.add-package {
+  padding-top: 130px !important;
+}
+
+.add-package {
+  margin-bottom: 200px !important;
 }
