@@ -8,8 +8,8 @@ import { get, ref } from "firebase/database";
 
 const Login = ({ user, setUser }) => {
   const [form, setForm] = useState({
-    email: "admin@gmail.com",
-    password: "admin1234",
+    email: "",
+    password: "",
   });
 
   const [redirect, setRedirect] = useState(false);
@@ -41,6 +41,13 @@ const Login = ({ user, setUser }) => {
           users[i].password === form.password
         ) {
           setUser({
+            name: users[i].name,
+            email: users[i].email,
+            dateOfBirth: users[i].dateOfBirth,
+            role: users[i].role,
+          });
+
+          console.log({
             name: users[i].name,
             email: users[i].email,
             dateOfBirth: users[i].dateOfBirth,

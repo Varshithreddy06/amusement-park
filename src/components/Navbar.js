@@ -14,7 +14,7 @@ const NavBar = ({ user }) => {
     <Navbar expand="lg" className="position-absolute vw-100 bg-white">
       <Container fluid>
         <Navbar.Brand as={Link} to="/" className="w-50">
-          <img src="Logo.png" alt="Logo" style={{ width: "120px" }} />
+          <img src="logo.png" alt="Logo" style={{ width: "120px" }} />
         </Navbar.Brand>
 
         {location.pathname !== "/login" &&
