@@ -49,6 +49,36 @@ body {
   border: 1px solid #011e31;
 }
 
+.hero-section {
+  position: relative;
+  height: 60vh; /* Adjust height as needed */
+  background-image: url("https://example.com/hero-background.jpg"); /* Replace with your image URL */
+  background-size: cover;
+  background-position: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.hero-title {
+  font-size: 3rem; /* Adjust as needed */
+  margin-bottom: 20px;
+}
+
+.hero-description {
+  font-size: 1.2rem; /* Adjust as needed */
+  margin-bottom: 30px;
+}
+
+.hero-button {
+  padding: 10px 20px;
+  font-size: 1rem; /* Adjust as needed */
+}
+
 .dashboard {
   padding-top: 130px !important;
 }

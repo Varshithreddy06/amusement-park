@@ -11,6 +11,7 @@ import ViewAllPackages from "./components/ViewAllPackages"; // Import ViewAllPac
 import AddRide from "./components/AddRide";
 import EditRide from "./components/EditRide";
 import AddPackage from "./components/AddPackage"; // Import AddPackage
+import EditPackage from "./components/EditPackage";
 import FAQ from "./components/FAQ";
 
 import ProtectedRoute from "./routing/ProtectedRoute";
@@ -122,6 +123,7 @@ function App() {
                 rides={rides}
                 setRides={setRides}
                 loadRides={loadRides}
+                packages={packages}
                 loadPackages={loadPackages}
               />
             </ProtectedRoute>
@@ -196,6 +198,22 @@ function App() {
           element={
             <ProtectedRoute user={user}>
               <AddPackage setPackages={setPackages} />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/edit-package/:id"
+          element={
+            <ProtectedRoute user={user}>
+              <EditPackage
+                user={user}
+                packages={packages}
+                setPackages={setPackages}
+                loadPackages={loadPackages}
+                rides={rides}
+                loadRides={loadRides}
+              />
             </ProtectedRoute>
           }
         />

@@ -11,7 +11,14 @@ import {
 import { db } from "../firebase/config";
 import { get, ref } from "firebase/database";
 
-function Dashboard({ user, rides, setRides, loadRides, loadPackages }) {
+function Dashboard({
+  user,
+  rides,
+  setRides,
+  loadRides,
+  packages,
+  loadPackages,
+}) {
   const [show, setShow] = useState(false);
   const [selectedRide, setSelectedRide] = useState(null);
 
@@ -29,11 +36,23 @@ function Dashboard({ user, rides, setRides, loadRides, loadPackages }) {
 
   return (
     <Container fluid className="dashboard p-0 m-0">
-      <div className="p-3 d-flex justify-content-center align-items-center">
-        <h2 className="primary-color">AMUSEMENT PARK</h2>
-      </div>
+      {/* Hero Section */}
+      <section className="hero-section">
+        <h1 className="hero-title secondary-color">
+          Welcome to <span className="primary-color">AMUSEMENT PARK</span>
+        </h1>
+        <p className="hero-description secondary-color">
+          Experience the thrill of our rides and the joy of our packages.
+          Unforgettable memories await you!
+        </p>
+        <Button className="hero-button bg-primary" href="#rides">
+          Explore Rides
+        </Button>
+      </section>
 
       <section id="rides" className="p-5">
+        <h3 className="text-center secondary-color mb-2">RIDES</h3>{" "}
+        {/* Rides Heading */}
         <Row>
           {rides.slice(0, 3).map((ride) => (
             <Col key={ride.id} md={4}>
@@ -88,49 +107,27 @@ function Dashboard({ user, rides, setRides, loadRides, loadPackages }) {
         </Modal>
       )}
 
-      <section id="package" className="w-100 p-0 m-0 my-5 p-3">
+      <section id="packages" className="w-100 p-0 m-0 my-5 p-3">
+        <h3 className="text-center secondary-color mb-2">PACKAGES</h3>{" "}
         <Row className="flex-row justify-content-center">
-          <Col md={4}>
-            <Card className="h-100">
-              <Card.Body>
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLnU_VzbtCmObeLBIlot8VXo8u9aHbgFTcjw&s"
-                  alt="Family package"
-                />
-                <Card.Title>Family Package</Card.Title>
-                <Card.Text>
-                  Enjoy a fun-filled day with the whole family! This package
-                  includes admission for 2 adults and 2 children, meal vouchers,
-                  and fast pass access to select rides.
-                </Card.Text>
-                <Card.Text>
-                  <strong>Price:</strong> $199.99
-                </Card.Text>
-                <Button className="bg-primary">Book Now</Button>
-              </Card.Body>
-            </Card>
-          </Col>
-
-          <Col md={4}>
-            <Card className="h-100">
-              <Card.Body>
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFOQlx51CrzlSN_D6WgVkk98LiI9z3QX1NPw&s"
-                  alt="Group Package"
-                />
-                <Card.Title>Group Package</Card.Title>
-                <Card.Text>
-                  Perfect for groups of 10 or more! This package includes
-                  discounted admission, complimentary parking, and a group photo
-                  pass to capture your memories.
-                </Card.Text>
-                <Card.Text>
-                  <strong>Price:</strong> $599.99 (for 10 people)
-                </Card.Text>
-                <Button className="bg-primary">Book Now</Button>
-              </Card.Body>
-            </Card>
-          </Col>
+          {packages.slice(0, 2).map((pkg, index) => (
+            <Col key={index} md={4}>
+              <Card className="h-100">
+                <Card.Body>
+                  <img
+                    src={pkg.image} // Ensure your package object has an image property
+                    alt={pkg.name}
+                  />
+                  <Card.Title>{pkg.name}</Card.Title>
+                  <Card.Text>{pkg.description}</Card.Text>
+                  <Card.Text>
+                    <strong>Price:</strong> {pkg.price}
+                  </Card.Text>
+                  <Button className="bg-primary">Book Now</Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
         </Row>
       </section>
 
