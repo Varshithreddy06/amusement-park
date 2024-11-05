@@ -73,7 +73,6 @@ function Messages({ user }) {
             >
               <Card.Body>
                 <Card.Title>{chat.name || chat.id}</Card.Title>
-                <Card.Text>{chat.lastMessage || "No messages yet"}</Card.Text>
               </Card.Body>
             </Card>
           ))}

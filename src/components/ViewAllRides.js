@@ -27,7 +27,7 @@ const ViewAllRides = ({
       setRides((prevRides) =>
         prevRides.filter((ride) => ride.id !== rideToDelete.id)
       );
-      addNotification(`Ride: ${rideToDelete.title} has been shutdown.`);
+      addNotification(`Ride: ${rideToDelete.name} has been shutdown.`);
       setShowModal(false);
     }
   };
@@ -56,7 +56,7 @@ const ViewAllRides = ({
           });
           alert("You have successfully joined the queue.");
           addNotification(
-            `A new user has joined the queue for Ride: ${ride.title}.`
+            `A new user has joined the queue for Ride: ${ride.name}.`
           );
         } else {
           alert("You are already in the queue.");
@@ -91,7 +91,7 @@ const ViewAllRides = ({
           await remove(ref(db, `rides/${ride.id}/queue/${userEntryKey}`));
           alert("You have successfully left the queue.");
 
-          addNotification(`A user has left the queue for Ride: ${ride.title}.`);
+          addNotification(`A user has left the queue for Ride: ${ride.name}.`);
         } else {
           alert("You are not in the queue.");
         }
