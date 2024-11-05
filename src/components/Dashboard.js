@@ -10,6 +10,18 @@ import {
 } from "react-bootstrap";
 import { db } from "../firebase/config";
 import { get, ref } from "firebase/database";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+
+// Custom marker icon setup
+const customMarker = new L.Icon({
+  iconUrl: markerIcon,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [0, -41],
+});
 
 function Dashboard({
   user,
@@ -48,6 +60,41 @@ function Dashboard({
         <Button className="hero-button bg-primary" href="#rides">
           Explore Rides
         </Button>
+      </section>
+
+      <section className="map-section p-5">
+        <h3 className="text-center mb-4">Explore Ride Locations</h3>
+        <MapContainer
+          center={[32.75154366516178, -97.07096235517302]} // Set initial center based on your park's location
+          zoom={13}
+          style={{ height: "500px", width: "100%" }}
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution="&copy; OpenStreetMap contributors"
+          />
+          {rides.map((ride) => (
+            <Marker
+              key={ride.id}
+              position={[ride.latitude, ride.longitude]}
+              icon={customMarker}
+            >
+              <Popup>
+                <strong>{ride.name}</strong>
+                <p>{ride.description}</p>
+                {user.role === "user" && (
+                  <Button
+                    variant="primary"
+                    className="bg-primary mt-2"
+                    onClick={() => handleShow(ride)}
+                  >
+                    View Ride
+                  </Button>
+                )}
+              </Popup>
+            </Marker>
+          ))}
+        </MapContainer>
       </section>
 
       <section id="rides" className="p-5">

@@ -1,4 +1,4 @@
-import { push, ref, set } from "firebase/database";
+import { ref, set } from "firebase/database";
 import React, { useState, useEffect } from "react";
 import { Container, Form, Button, Alert } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
@@ -9,6 +9,8 @@ const EditRide = ({ user, rides, setRides }) => {
     name: "",
     description: "",
     image: "",
+    latitude: "",
+    longitude: "",
   });
 
   const [error, setError] = useState("");
@@ -34,7 +36,13 @@ const EditRide = ({ user, rides, setRides }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!rideDetails.name || !rideDetails.description || !rideDetails.image) {
+    if (
+      !rideDetails.name ||
+      !rideDetails.description ||
+      !rideDetails.image ||
+      !rideDetails.latitude ||
+      !rideDetails.longitude
+    ) {
       setError("All fields are required.");
       return;
     }
@@ -44,11 +52,21 @@ const EditRide = ({ user, rides, setRides }) => {
       return;
     }
 
-    const newDocRef = ref(db, "rides/" + rideDetails.id);
-    await set(newDocRef, {
+    // Parse latitude and longitude to numbers and validate
+    const latitude = parseFloat(rideDetails.latitude);
+    const longitude = parseFloat(rideDetails.longitude);
+    if (isNaN(latitude) || isNaN(longitude)) {
+      setError("Please enter valid numeric values for latitude and longitude.");
+      return;
+    }
+
+    const rideRef = ref(db, "rides/" + rideDetails.id);
+    await set(rideRef, {
       name: rideDetails.name,
       description: rideDetails.description,
       image: rideDetails.image,
+      latitude,
+      longitude,
     });
 
     setRides((prevRides) =>
@@ -105,6 +123,30 @@ const EditRide = ({ user, rides, setRides }) => {
               value={rideDetails.image}
               onChange={handleChange}
               placeholder="Enter image URL"
+              required
+            />
+          </Form.Group>
+
+          <Form.Group controlId="formRideLatitude" className="mb-3">
+            <Form.Label>Latitude</Form.Label>
+            <Form.Control
+              type="text"
+              name="latitude"
+              value={rideDetails.latitude}
+              onChange={handleChange}
+              placeholder="Enter latitude"
+              required
+            />
+          </Form.Group>
+
+          <Form.Group controlId="formRideLongitude" className="mb-3">
+            <Form.Label>Longitude</Form.Label>
+            <Form.Control
+              type="text"
+              name="longitude"
+              value={rideDetails.longitude}
+              onChange={handleChange}
+              placeholder="Enter longitude"
               required
             />
           </Form.Group>

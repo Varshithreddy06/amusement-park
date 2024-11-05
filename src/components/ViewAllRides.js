@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { db } from "../firebase/config";
 import { ref, remove } from "firebase/database";
 
-const ViewAllRides = ({ user, rides, setRides }) => {
+const ViewAllRides = ({ user, rides, setRides, loadRides }) => {
   const [showModal, setShowModal] = useState(false);
   const [rideToDelete, setRideToDelete] = useState(null);
 
@@ -30,6 +30,10 @@ const ViewAllRides = ({ user, rides, setRides }) => {
     setRideToDelete(null);
   };
 
+  useEffect(() => {
+    loadRides();
+  }, []);
+
   return (
     <Container className="p-5 dashboard">
       <div className="d-flex justify-content-between align-items-center">
@@ -37,7 +41,7 @@ const ViewAllRides = ({ user, rides, setRides }) => {
         {user.role === "admin" && (
           <Link to="/add-ride">
             <Button className="bg-primary mb-4">
-              Add New Ride<i class="fa-solid fa-plus ms-2"></i>
+              Add New Ride<i className="fa-solid fa-plus ms-2"></i>
             </Button>
           </Link>
         )}
@@ -50,6 +54,12 @@ const ViewAllRides = ({ user, rides, setRides }) => {
               <Card.Body>
                 <Card.Title>{ride.name}</Card.Title>
                 <Card.Text>{ride.description}</Card.Text>
+                {ride.latitude && ride.longitude && (
+                  <Card.Text>
+                    <strong>Location:</strong> Lat {ride.latitude}, Lng{" "}
+                    {ride.longitude}
+                  </Card.Text>
+                )}
                 {user.role === "admin" && (
                   <div className="d-flex justify-content-end">
                     <Button
@@ -57,10 +67,10 @@ const ViewAllRides = ({ user, rides, setRides }) => {
                       to={`/edit-ride/${ride.id}`}
                       className="bg-secondary border-0 me-2"
                     >
-                      Edit Ride <i class="fa-regular fa-pen-to-square"></i>
+                      Edit Ride <i className="fa-regular fa-pen-to-square"></i>
                     </Button>
                     <Button variant="danger" onClick={() => handleDelete(ride)}>
-                      Delete Ride <i class="fa-solid fa-trash"></i>
+                      Delete Ride <i className="fa-solid fa-trash"></i>
                     </Button>
                   </div>
                 )}

@@ -154,7 +154,12 @@ function App() {
           path="/view-all-rides"
           element={
             <ProtectedRoute user={user}>
-              <ViewAllRides user={user} rides={rides} setRides={setRides} />
+              <ViewAllRides
+                user={user}
+                rides={rides}
+                setRides={setRides}
+                loadRides={loadRides}
+              />
             </ProtectedRoute>
           }
         />
