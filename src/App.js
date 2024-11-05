@@ -13,6 +13,7 @@ import EditRide from "./components/EditRide";
 import AddPackage from "./components/AddPackage"; // Import AddPackage
 import EditPackage from "./components/EditPackage";
 import FAQ from "./components/FAQ";
+import AdminAnalytics from "./components/AdminAnalytics";
 
 import ProtectedRoute from "./routing/ProtectedRoute";
 
@@ -269,6 +270,18 @@ function App() {
                 addNotification={addNotification}
               />
             </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/analytics"
+          element={
+            <AdminAnalytics
+              rides={rides}
+              packages={packages}
+              loadRides={loadRides}
+              loadPackages={loadPackages}
+            />
           }
         />
       </Routes>

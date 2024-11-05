@@ -53,6 +53,8 @@ const AddRide = ({ user, setRides, loadRides, addNotification }) => {
       return;
     }
 
+    const createdAt = new Date().toISOString();
+
     // Push new ride data to Firebase
     const newDocRef = push(ref(db, "rides"));
     await set(newDocRef, {
@@ -62,6 +64,7 @@ const AddRide = ({ user, setRides, loadRides, addNotification }) => {
       latitude,
       longitude,
       queue: [],
+      createdAt,
     });
 
     await loadRides();

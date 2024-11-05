@@ -100,7 +100,8 @@ body {
 .add-ride,
 .edit-ride,
 .faq,
-.add-package {
+.add-package,
+.admin-analytics {
   padding-top: 130px !important;
 }
 

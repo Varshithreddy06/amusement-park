@@ -51,6 +51,7 @@ const AddPackage = ({ setPackages, addNotification }) => {
       return;
     }
 
+    const createdAt = new Date().toISOString();
     const newPackage = {
       name,
       description,
@@ -58,6 +59,7 @@ const AddPackage = ({ setPackages, addNotification }) => {
       duration,
       image,
       rides: selectedRides.map((ride) => ride.value), // Include selected rides in the package data
+      createdAt,
     };
 
     const packagesRef = ref(db, "packages");

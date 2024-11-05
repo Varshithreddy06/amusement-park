@@ -26,6 +26,9 @@ const VirtualQueueList = ({ rideId }) => {
             {`User Name: ${entry.userName} - Position: ${index + 1}`}
           </li>
         ))}
+        {
+          queue?.length === 0 && ("Ride is empty")
+        }
       </ul>
     </div>
   );

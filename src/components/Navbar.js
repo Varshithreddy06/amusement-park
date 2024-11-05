@@ -71,6 +71,21 @@ const NavBar = ({ user }) => {
                 )}
               </Nav.Link>
 
+              {user.role === "admin" && (
+                <Nav.Link
+                  as={Link}
+                  to="/analytics"
+                  className="d-flex justify-content-center align-items-center primary-color"
+                  onClick={handleNavLinkClick} // Close notifications on click
+                >
+                  {location.pathname === "/analytics" ? (
+                    <span className="text-decoration-underline">Analytics</span>
+                  ) : (
+                    <span className="text-decoration-none">Analytics</span>
+                  )}
+                </Nav.Link>
+              )}
+
               <Nav.Link className="primary-color" onClick={toggleNotifications}>
                 <i className="fa-solid fa-bell"></i>
               </Nav.Link>
