@@ -86,6 +86,19 @@ const NavBar = ({ user }) => {
                 </Nav.Link>
               )}
 
+              <Nav.Link
+                as={Link}
+                to="/messages"
+                className="d-flex justify-content-center align-items-center primary-color"
+                onClick={handleNavLinkClick} // Close notifications on click
+              >
+                {location.pathname === "/messages" ? (
+                  <span className="text-decoration-underline">Messages</span>
+                ) : (
+                  <span className="text-decoration-none">Messages</span>
+                )}
+              </Nav.Link>
+
               <Nav.Link className="primary-color" onClick={toggleNotifications}>
                 <i className="fa-solid fa-bell"></i>
               </Nav.Link>

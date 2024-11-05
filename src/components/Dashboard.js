@@ -9,7 +9,7 @@ import {
   Modal,
 } from "react-bootstrap";
 import { db } from "../firebase/config";
-import { get, ref } from "firebase/database";
+import { get, ref, set } from "firebase/database";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -34,12 +34,45 @@ function Dashboard({
 }) {
   const [show, setShow] = useState(false);
   const [selectedRide, setSelectedRide] = useState(null);
+  const [contactForm, setContactForm] = useState({
+    name: user.name,
+    message: "",
+    userid: user.id,
+  });
+  const [messageSent, setMessageSent] = useState(false); // State to track message submission
 
   const handleClose = () => setShow(false);
   const handleAcceptRide = () => setShow(false);
   const handleShow = (ride) => {
     setSelectedRide(ride);
     setShow(true);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setContactForm((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // Save the message to Firebase
+      const messageRef = ref(db, "messages/" + Date.now()); // Unique key based on timestamp
+      await set(messageRef, contactForm);
+      setMessageSent(true); // Set message sent state to true
+      // Clear the form after submission
+      setContactForm({
+        name: user.name, // Reset to user's name
+        message: "",
+        userid: user.id,
+      });
+    } catch (error) {
+      console.error("Error sending message: ", error);
+      // Optionally, you can handle error notifications here
+    }
   };
 
   useEffect(() => {
@@ -193,22 +226,16 @@ function Dashboard({
             <Card>
               <Card.Body>
                 <h4>Send Us a Message</h4>
-                <Form>
+                <Form onSubmit={handleSubmit}>
                   <Form.Group controlId="formName" className="mb-3">
                     <Form.Label>Your Name</Form.Label>
-                    <Form.Control type="text" placeholder="Enter your name" />
-                  </Form.Group>
-
-                  <Form.Group controlId="formEmail" className="mb-3">
-                    <Form.Label>Email Address</Form.Label>
-                    <Form.Control type="email" placeholder="Enter your email" />
-                  </Form.Group>
-
-                  <Form.Group controlId="formSubject" className="mb-3">
-                    <Form.Label>Subject</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="Subject of your message"
+                      placeholder="Enter your name"
+                      name="name"
+                      value={contactForm.name}
+                      onChange={handleInputChange}
+                      disabled
                     />
                   </Form.Group>
 
@@ -218,12 +245,21 @@ function Dashboard({
                       as="textarea"
                       rows={5}
                       placeholder="Write your message here..."
+                      name="message"
+                      value={contactForm.message}
+                      onChange={handleInputChange}
+                      required
                     />
                   </Form.Group>
 
-                  <Button className="bg-primary" type="submit">
+                  <Button variant="primary" type="submit" className="w-100">
                     Send Message
                   </Button>
+                  {messageSent && (
+                    <p className="text-success mt-2">
+                      Message sent successfully!
+                    </p>
+                  )}
                 </Form>
               </Card.Body>
             </Card>

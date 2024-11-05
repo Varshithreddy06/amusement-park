@@ -101,7 +101,8 @@ body {
 .edit-ride,
 .faq,
 .add-package,
-.admin-analytics {
+.admin-analytics,
+.messages {
   padding-top: 130px !important;
 }
 
