@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
@@ -17,7 +17,7 @@ import FAQ from "./components/FAQ";
 import ProtectedRoute from "./routing/ProtectedRoute";
 
 import { db } from "./firebase/config";
-import { ref, get } from "firebase/database";
+import { ref, get, onValue } from "firebase/database";
 
 function App() {
   const [user, setUser] = useState({
@@ -102,6 +102,20 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    const ridesRef = ref(db, "rides");
+    onValue(ridesRef, (snapshot) => {
+      const data = snapshot.val();
+      const ridesArray = data
+        ? Object.keys(data).map((key) => ({
+            id: key,
+            ...data[key],
+          }))
+        : [];
+      setRides(ridesArray);
+    });
+  }, []);
+
   return (
     <Router>
       <Navbar user={user} />
@@ -154,7 +168,12 @@ function App() {
           path="/view-all-rides"
           element={
             <ProtectedRoute user={user}>
-              <ViewAllRides user={user} rides={rides} setRides={setRides} />
+              <ViewAllRides
+                user={user}
+                rides={rides}
+                setRides={setRides}
+                loadRides={loadRides}
+              />
             </ProtectedRoute>
           }
         />
