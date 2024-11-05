@@ -99,6 +99,22 @@ const NavBar = ({ user }) => {
                 )}
               </Nav.Link>
 
+              {
+                user.role==='user' && (
+                  <Nav.Link
+                    as={Link}
+                    to="/bookings"
+                    className="d-flex justify-content-center align-items-center primary-color"
+                    onClick={handleNavLinkClick} // Close notifications on click
+                  >
+                    {location.pathname === "/bookings" ? (
+                      <span className="text-decoration-underline">Bookings</span>
+                    ) : (
+                      <span className="text-decoration-none">Bookings</span>
+                    )}
+                  </Nav.Link>)
+              }
+
               <Nav.Link className="primary-color" onClick={toggleNotifications}>
                 <i className="fa-solid fa-bell"></i>
               </Nav.Link>

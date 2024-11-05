@@ -52,6 +52,8 @@ function Dashboard({
       const bookingRef = ref(db, "bookings/" + Date.now()); // Unique key for booking
       await set(bookingRef, {
         rideId: selectedRide.id,
+        rideName: selectedRide.name,
+        rideImg: selectedRide.image,
         userId: user.id,
         userName: user.name,
         timestamp: Date.now(),

@@ -15,6 +15,7 @@ import EditPackage from "./components/EditPackage";
 import FAQ from "./components/FAQ";
 import AdminAnalytics from "./components/AdminAnalytics";
 import Messages from "./components/Messages";
+import Bookings from "./components/Bookings";
 
 import ProtectedRoute from "./routing/ProtectedRoute";
 
@@ -279,6 +280,10 @@ function App() {
             />
           }
         />
+
+        <Route path="/bookings" element={
+          <Bookings user={user} />
+        } />
 
         <Route path="/messages" element={<Messages user={user} />} />
       </Routes>
