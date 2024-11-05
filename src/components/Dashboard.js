@@ -14,6 +14,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
+import VirtualQueueList from "./VirtualQueueList";
 
 // Custom marker icon setup
 const customMarker = new L.Icon({
@@ -91,6 +92,7 @@ function Dashboard({
                     View Ride
                   </Button>
                 )}
+                <VirtualQueueList rideId={ride.id} />
               </Popup>
             </Marker>
           ))}
@@ -165,10 +167,15 @@ function Dashboard({
                     src={pkg.image} // Ensure your package object has an image property
                     alt={pkg.name}
                   />
-                  <Card.Title>{pkg.name}</Card.Title>
+                  <Card.Title className="mt-2">{pkg.name}</Card.Title>
                   <Card.Text>{pkg.description}</Card.Text>
-                  <Card.Text>
-                    <strong>Price:</strong> {pkg.price}
+                  <Card.Text className="d-flex align-items-center">
+                    <i className="fa-solid fa-dollar-sign me-2 secondary-color"></i>
+                    <strong className="me-1">Price:</strong> {pkg.price}
+                  </Card.Text>
+                  <Card.Text className="d-flex align-items-center">
+                    <i className="fa-solid fa-clock me-2 secondary-color"></i>
+                    <strong className="me-1">Duration:</strong> {pkg.duration}
                   </Card.Text>
                   <Button className="bg-primary">Book Now</Button>
                 </Card.Body>

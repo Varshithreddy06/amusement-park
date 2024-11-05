@@ -61,6 +61,7 @@ const AddRide = ({ user, setRides, loadRides }) => {
       image: rideDetails.image,
       latitude,
       longitude,
+      queue: [],
     });
 
     await loadRides();
