@@ -4,7 +4,7 @@ import { Container, Form, Button, Alert } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { db } from "../firebase/config";
 
-const EditRide = ({ user, rides, setRides }) => {
+const EditRide = ({ user, rides, setRides, addNotification }) => {
   const [rideDetails, setRideDetails] = useState({
     name: "",
     description: "",
@@ -68,6 +68,10 @@ const EditRide = ({ user, rides, setRides }) => {
       latitude,
       longitude,
     });
+
+    addNotification(
+      `Ride: ${rideDetails.name} has been updated! Please find the new details in Rides tab.`
+    );
 
     setRides((prevRides) =>
       prevRides.map((ride) => (ride.id === id ? rideDetails : ride))

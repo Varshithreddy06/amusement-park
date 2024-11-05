@@ -4,7 +4,7 @@ import { Container, Form, Button, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase/config";
 
-const AddRide = ({ user, setRides, loadRides }) => {
+const AddRide = ({ user, setRides, loadRides, addNotification }) => {
   const [rideDetails, setRideDetails] = useState({
     name: "",
     description: "",
@@ -66,6 +66,9 @@ const AddRide = ({ user, setRides, loadRides }) => {
 
     await loadRides();
 
+    addNotification(
+      `A new ride ${rideDetails.name} has been added! Please check it in Rides tab.`
+    );
     setRideDetails({
       name: "",
       description: "",

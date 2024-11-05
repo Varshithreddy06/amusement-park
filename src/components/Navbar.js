@@ -1,13 +1,25 @@
 import React, { useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
+import Notifications from "./Notifications";
 import { useLocation, Link } from "react-router-dom";
 
 const NavBar = ({ user }) => {
   const location = useLocation();
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [notificationsVisible, setNotificationsVisible] = useState(false);
 
   const toggleDropdown = () => {
     setDropdownVisible((prev) => !prev);
+  };
+
+  const toggleNotifications = () => {
+    setNotificationsVisible((prev) => !prev);
+  };
+
+  // Function to handle navigation link clicks
+  const handleNavLinkClick = () => {
+    // Close notifications dropdown when a nav link is clicked
+    setNotificationsVisible(false);
   };
 
   return (
@@ -24,6 +36,7 @@ const NavBar = ({ user }) => {
                 as={Link}
                 to="/view-all-rides"
                 className="d-flex justify-content-center align-items-center primary-color"
+                onClick={handleNavLinkClick} // Close notifications on click
               >
                 {location.pathname === "/view-all-rides" ? (
                   <span className="text-decoration-underline">Rides</span>
@@ -36,6 +49,7 @@ const NavBar = ({ user }) => {
                 as={Link}
                 to="/packages"
                 className="d-flex justify-content-center align-items-center primary-color"
+                onClick={handleNavLinkClick} // Close notifications on click
               >
                 {location.pathname === "/packages" ? (
                   <span className="text-decoration-underline">Packages</span>
@@ -48,6 +62,7 @@ const NavBar = ({ user }) => {
                 as={Link}
                 to="/faq"
                 className="d-flex justify-content-center align-items-center primary-color"
+                onClick={handleNavLinkClick} // Close notifications on click
               >
                 {location.pathname === "/faq" ? (
                   <span className="text-decoration-underline">FAQ</span>
@@ -55,6 +70,26 @@ const NavBar = ({ user }) => {
                   <span className="text-decoration-none">FAQ</span>
                 )}
               </Nav.Link>
+
+              <Nav.Link className="primary-color" onClick={toggleNotifications}>
+                <i className="fa-solid fa-bell"></i>
+              </Nav.Link>
+
+              {notificationsVisible && (
+                <div
+                  className="position-absolute bg-light"
+                  style={{
+                    top: "70px",
+                    right: "350px",
+                    zIndex: 1000,
+                    border: "1px solid #ccc",
+                    borderRadius: "5px",
+                    width: "200px",
+                  }}
+                >
+                  <Notifications userId={user.id} />
+                </div>
+              )}
 
               <div className="position-relative">
                 <Nav.Link className="primary-color" onClick={toggleDropdown}>
@@ -71,10 +106,20 @@ const NavBar = ({ user }) => {
                       width: "200px",
                     }}
                   >
-                    <Nav.Link as={Link} to="/profile" style={{ color: "#000" }}>
+                    <Nav.Link
+                      as={Link}
+                      to="/profile"
+                      style={{ color: "#000" }}
+                      onClick={handleNavLinkClick}
+                    >
                       View Profile
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/logout" style={{ color: "#000" }}>
+                    <Nav.Link
+                      as={Link}
+                      to="/logout"
+                      style={{ color: "#000" }}
+                      onClick={handleNavLinkClick}
+                    >
                       Logout{" "}
                       <i className="fa-solid fa-arrow-right-from-bracket"></i>
                     </Nav.Link>
@@ -86,7 +131,12 @@ const NavBar = ({ user }) => {
 
         {location.pathname === "/login" && (
           <Nav className="me-2 my-2 my-lg-0" navbarScroll>
-            <Nav.Link as={Link} to="/register" className="primary-color">
+            <Nav.Link
+              as={Link}
+              to="/register"
+              className="primary-color"
+              onClick={handleNavLinkClick}
+            >
               Register <i className="fa-solid fa-right-to-bracket"></i>
             </Nav.Link>
           </Nav>
@@ -94,7 +144,12 @@ const NavBar = ({ user }) => {
 
         {location.pathname === "/register" && (
           <Nav className="me-2 my-2 my-lg-0" navbarScroll>
-            <Nav.Link as={Link} to="/login" className="primary-color">
+            <Nav.Link
+              as={Link}
+              to="/login"
+              className="primary-color"
+              onClick={handleNavLinkClick}
+            >
               Login <i className="fa-solid fa-right-to-bracket"></i>
             </Nav.Link>
           </Nav>

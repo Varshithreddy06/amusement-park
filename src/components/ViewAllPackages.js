@@ -11,6 +11,7 @@ const ViewAllPackages = ({
   rides,
   loadPackages,
   loadRides,
+  addNotification,
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [packageToDelete, setPackageToDelete] = useState(null);
@@ -27,6 +28,8 @@ const ViewAllPackages = ({
       setPackages((prevPackages) =>
         prevPackages.filter((pkg) => pkg.id !== packageToDelete.id)
       );
+
+      addNotification(`Package: ${packageToDelete.name} has been removed.`);
       setShowModal(false);
     }
   };

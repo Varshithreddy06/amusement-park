@@ -4,7 +4,13 @@ import { Link } from "react-router-dom";
 import { db } from "../firebase/config";
 import { ref, remove, onValue, push, get } from "firebase/database";
 
-const ViewAllRides = ({ user, rides, setRides, loadRides }) => {
+const ViewAllRides = ({
+  user,
+  rides,
+  setRides,
+  loadRides,
+  addNotification,
+}) => {
   const [showModal, setShowModal] = useState(false);
   const [rideToDelete, setRideToDelete] = useState(null);
 
@@ -21,6 +27,7 @@ const ViewAllRides = ({ user, rides, setRides, loadRides }) => {
       setRides((prevRides) =>
         prevRides.filter((ride) => ride.id !== rideToDelete.id)
       );
+      addNotification(`Ride: ${rideToDelete.title} has been shutdown.`);
       setShowModal(false);
     }
   };
@@ -30,9 +37,9 @@ const ViewAllRides = ({ user, rides, setRides, loadRides }) => {
     setRideToDelete(null);
   };
 
-  const joinQueue = async (rideId) => {
+  const joinQueue = async (ride) => {
     try {
-      const queueRef = ref(db, `rides/${rideId}/queue`);
+      const queueRef = ref(db, `rides/${ride.id}/queue`);
       const queueSnapshot = await get(queueRef);
 
       if (queueSnapshot.exists()) {
@@ -48,6 +55,9 @@ const ViewAllRides = ({ user, rides, setRides, loadRides }) => {
             timestamp: Date.now(),
           });
           alert("You have successfully joined the queue.");
+          addNotification(
+            `A new user has joined the queue for Ride: ${ride.title}.`
+          );
         } else {
           alert("You are already in the queue.");
         }
@@ -66,9 +76,9 @@ const ViewAllRides = ({ user, rides, setRides, loadRides }) => {
     }
   };
 
-  const leaveQueue = async (rideId) => {
+  const leaveQueue = async (ride) => {
     try {
-      const queueRef = ref(db, `rides/${rideId}/queue`);
+      const queueRef = ref(db, `rides/${ride.id}/queue`);
       const queueSnapshot = await get(queueRef);
 
       if (queueSnapshot.exists()) {
@@ -78,8 +88,10 @@ const ViewAllRides = ({ user, rides, setRides, loadRides }) => {
         );
 
         if (userEntryKey) {
-          await remove(ref(db, `rides/${rideId}/queue/${userEntryKey}`));
+          await remove(ref(db, `rides/${ride.id}/queue/${userEntryKey}`));
           alert("You have successfully left the queue.");
+
+          addNotification(`A user has left the queue for Ride: ${ride.title}.`);
         } else {
           alert("You are not in the queue.");
         }
@@ -128,13 +140,13 @@ const ViewAllRides = ({ user, rides, setRides, loadRides }) => {
                 {/* Join Queue Button */}
                 <div className="d-flex justify-content-end">
                   <Button
-                    onClick={() => joinQueue(ride.id)}
+                    onClick={() => joinQueue(ride)}
                     className="bg-success border-0 me-2"
                   >
                     Join Queue <i className="fa-solid fa-ticket"></i>
                   </Button>
                   <Button
-                    onClick={() => leaveQueue(ride.id)}
+                    onClick={() => leaveQueue(ride)}
                     className="bg-danger border-0 me-2"
                   >
                     Leave Queue <i className="fa-solid fa-times"></i>

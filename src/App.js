@@ -17,7 +17,7 @@ import FAQ from "./components/FAQ";
 import ProtectedRoute from "./routing/ProtectedRoute";
 
 import { db } from "./firebase/config";
-import { ref, get, onValue } from "firebase/database";
+import { ref, get, onValue, push, set } from "firebase/database";
 
 function App() {
   const [user, setUser] = useState({
@@ -66,7 +66,6 @@ function App() {
         id,
       }));
       setRides(tempRides);
-      console.log(tempRides);
     } else {
       setRides([]);
     }
@@ -99,6 +98,24 @@ function App() {
       setFaqs(tempFAQ);
     } else {
       setFaqs([]);
+    }
+  };
+
+  const addNotification = async (message) => {
+    const dbRef = ref(db, "users");
+    const snapshot = await get(dbRef);
+    if (snapshot.exists()) {
+      const users = snapshot.val();
+
+      for (const userid in users) {
+        const notificationsRef = push(ref(db, "notifications"));
+        await set(notificationsRef, {
+          message: message,
+          userid: userid,
+          timestamp: new Date().toISOString(),
+          read: false,
+        });
+      }
     }
   };
 
@@ -139,6 +156,7 @@ function App() {
                 loadRides={loadRides}
                 packages={packages}
                 loadPackages={loadPackages}
+                addNotification={addNotification}
               />
             </ProtectedRoute>
           }
@@ -160,6 +178,7 @@ function App() {
                 faqs={faqs}
                 setFaqs={setFaqs}
                 loadFAQ={loadFAQ}
+                addNotification={addNotification}
               />
             </ProtectedRoute>
           }
@@ -173,6 +192,7 @@ function App() {
                 rides={rides}
                 setRides={setRides}
                 loadRides={loadRides}
+                addNotification={addNotification}
               />
             </ProtectedRoute>
           }
@@ -182,7 +202,12 @@ function App() {
           path="/add-ride"
           element={
             <ProtectedRoute user={user}>
-              <AddRide user={user} setRides={setRides} loadRides={loadRides} />
+              <AddRide
+                user={user}
+                setRides={setRides}
+                loadRides={loadRides}
+                addNotification={addNotification}
+              />
             </ProtectedRoute>
           }
         />
@@ -191,7 +216,12 @@ function App() {
           path="/edit-ride/:id"
           element={
             <ProtectedRoute user={user}>
-              <EditRide user={user} rides={rides} setRides={setRides} />
+              <EditRide
+                user={user}
+                rides={rides}
+                setRides={setRides}
+                addNotification={addNotification}
+              />
             </ProtectedRoute>
           }
         />
@@ -207,6 +237,7 @@ function App() {
                 rides={rides}
                 loadPackages={loadPackages}
                 loadRides={loadRides}
+                addNotification={addNotification}
               />
             </ProtectedRoute>
           }
@@ -216,7 +247,10 @@ function App() {
           path="/add-package"
           element={
             <ProtectedRoute user={user}>
-              <AddPackage setPackages={setPackages} />
+              <AddPackage
+                setPackages={setPackages}
+                addNotification={addNotification}
+              />
             </ProtectedRoute>
           }
         />
@@ -232,6 +266,7 @@ function App() {
                 loadPackages={loadPackages}
                 rides={rides}
                 loadRides={loadRides}
+                addNotification={addNotification}
               />
             </ProtectedRoute>
           }

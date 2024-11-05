@@ -107,3 +107,7 @@ body {
 .add-package {
   margin-bottom: 200px !important;
 }
+
+.notification {
+  width: 500px;
+}
