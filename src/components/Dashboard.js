@@ -39,17 +39,50 @@ function Dashboard({
     message: "",
     userid: user.id,
   });
+  const [bookingShow, setBookingShow] = useState(false); // New state for booking confirmation
+  const [packageBookingShow, setPackageBookingShow] = useState(false); // New state for package booking confirmation
   const [messageSent, setMessageSent] = useState(false); // State to track message submission
   const [reviewShow, setReviewShow] = useState(false);
   const [review, setReview] = useState({ rideId: "", rating: 0, comment: "" });
   const [reviews, setReviews] = useState([]); // To hold reviews fetched from Firebase
 
   const handleClose = () => setShow(false);
-  const handleAcceptRide = () => setShow(false);
+  const handleAcceptRide = async () => {
+    try {
+      const bookingRef = ref(db, "bookings/" + Date.now()); // Unique key for booking
+      await set(bookingRef, {
+        rideId: selectedRide.id,
+        userId: user.id,
+        userName: user.name,
+        timestamp: Date.now(),
+      });
+      setBookingShow(true); // Show booking confirmation dialog
+      setShow(false); // Close ride details modal
+    } catch (error) {
+      console.error("Error booking ride: ", error);
+    }
+  };
   const handleShow = (ride) => {
     setSelectedRide(ride);
     setShow(true);
   };
+  const handleBookingClose = () => setBookingShow(false); // Close booking confirmation
+
+  const handleBookPackage = async (pkg) => {
+    try {
+      const packageBookingRef = ref(db, "package_bookings/" + Date.now());
+      await set(packageBookingRef, {
+        packageId: pkg.id,
+        userId: user.id,
+        userName: user.name,
+        timestamp: Date.now(),
+      });
+      setPackageBookingShow(true); // Show package booking confirmation dialog
+    } catch (error) {
+      console.error("Error booking package: ", error);
+    }
+  };
+  const handlePackageBookingClose = () => setPackageBookingShow(false); // Close package booking modal
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -286,13 +319,32 @@ function Dashboard({
                     <i className="fa-solid fa-clock me-2 secondary-color"></i>
                     <strong className="me-1">Duration:</strong> {pkg.duration}
                   </Card.Text>
-                  <Button className="bg-primary">Book Now</Button>
+                  <Button
+                    className="bg-primary"
+                    onClick={() => handleBookPackage(pkg)}
+                  >
+                    Book Now
+                  </Button>
                 </Card.Body>
               </Card>
             </Col>
           ))}
         </Row>
       </section>
+
+      {packageBookingShow && (
+        <Modal show={packageBookingShow} onHide={handlePackageBookingClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Package Booking Successful</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Your package has been booked successfully!</Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handlePackageBookingClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      )}
 
       <section id="contact" className="vw-100 bg-white p-0 m-0 p-5">
         <h2 className="text-center mb-4">Contact Us</h2>
@@ -384,6 +436,21 @@ function Dashboard({
             </Card>
           </Col>
         </Row>
+
+        {/* Booking Confirmation Modal */}
+        <Modal show={bookingShow} onHide={handleBookingClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Booking Confirmation</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>Your booking for {selectedRide?.name} has been confirmed!</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleBookingClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
         <Modal show={reviewShow} onHide={() => setReviewShow(false)}>
           <Modal.Header closeButton>

@@ -120,39 +120,15 @@ const NavBar = ({ user }) => {
               )}
 
               <div className="position-relative">
-                <Nav.Link className="primary-color" onClick={toggleDropdown}>
-                  <i className="fa-solid fa-circle-user"></i>
+                <Nav.Link
+                  as={Link}
+                  to="/logout"
+                  style={{ color: "#000" }}
+                  onClick={handleNavLinkClick}
+                >
+                  Logout
+                  <i className="fa-solid fa-arrow-right-from-bracket ms-2"></i>
                 </Nav.Link>
-                {dropdownVisible && (
-                  <div
-                    className="position-absolute bg-light"
-                    style={{
-                      right: 0,
-                      zIndex: 1000,
-                      border: "1px solid #ccc",
-                      borderRadius: "5px",
-                      width: "200px",
-                    }}
-                  >
-                    <Nav.Link
-                      as={Link}
-                      to="/profile"
-                      style={{ color: "#000" }}
-                      onClick={handleNavLinkClick}
-                    >
-                      View Profile
-                    </Nav.Link>
-                    <Nav.Link
-                      as={Link}
-                      to="/logout"
-                      style={{ color: "#000" }}
-                      onClick={handleNavLinkClick}
-                    >
-                      Logout{" "}
-                      <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                    </Nav.Link>
-                  </div>
-                )}
               </div>
             </Nav>
           )}

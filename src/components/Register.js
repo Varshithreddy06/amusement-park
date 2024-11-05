@@ -67,7 +67,7 @@ const Register = ({ user, setUser }) => {
   }
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit} className="register">
       <div className="d-flex justify-content-around align-items-center vw-100 vh-100 register pt-5">
         <div></div>
         <Card className="shadow p-3 mb-5 bg-body rounded d-flex justify-content-center align-items-center register-card">

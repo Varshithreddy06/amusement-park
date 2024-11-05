@@ -31,6 +31,8 @@ body {
 
 .register {
   background-image: url("/public/img/Register.png");
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 .login-card {

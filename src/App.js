@@ -22,13 +22,7 @@ import { db } from "./firebase/config";
 import { ref, get, onValue, push, set } from "firebase/database";
 
 function App() {
-  const [user, setUser] = useState({
-    id: "-O9FyQL7TxUSMMILEydg",
-    name: "Admin",
-    email: "admin@gmail.com",
-    dateOfBirth: "2001-01-01",
-    role: "admin",
-  });
+  const [user, setUser] = useState({});
   const [rides, setRides] = useState([]);
   const [packages, setPackages] = useState([]);
 
