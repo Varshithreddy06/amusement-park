@@ -40,6 +40,9 @@ function Dashboard({
     userid: user.id,
   });
   const [messageSent, setMessageSent] = useState(false); // State to track message submission
+  const [reviewShow, setReviewShow] = useState(false);
+  const [review, setReview] = useState({ rideId: "", rating: 0, comment: "" });
+  const [reviews, setReviews] = useState([]); // To hold reviews fetched from Firebase
 
   const handleClose = () => setShow(false);
   const handleAcceptRide = () => setShow(false);
@@ -74,6 +77,49 @@ function Dashboard({
       // Optionally, you can handle error notifications here
     }
   };
+
+  const handleReviewChange = (e) => {
+    const { name, value } = e.target;
+    setReview((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const rideRef = ref(db, `rides/${selectedRide.id}`); // Unique key for each review
+      const updatedReviews = selectedRide?.reviews
+        ? [...selectedRide.reviews, review]
+        : [review];
+      await set(rideRef, {
+        ...selectedRide,
+        reviews: updatedReviews,
+      });
+      setReview({ rideId: "", rating: 0, comment: "" }); // Reset review state
+      setReviewShow(false); // Close modal
+    } catch (error) {
+      console.error("Error submitting review: ", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      const reviewsRef = ref(db, `reviews/${selectedRide.id}`);
+      const snapshot = await get(reviewsRef);
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        setReviews(Object.values(data)); // Convert to array
+      } else {
+        setReviews([]);
+      }
+    };
+
+    if (selectedRide) {
+      fetchReviews();
+    }
+  }, [selectedRide]);
 
   useEffect(() => {
     loadRides();
@@ -143,6 +189,24 @@ function Dashboard({
                 <Card.Body>
                   <Card.Title>{ride.name}</Card.Title>
                   <Card.Text>{ride.description}</Card.Text>
+
+                  {ride?.reviews && (
+                    <>
+                      <h6>Reviews:</h6>
+                      {ride.reviews.map((rev, index) => (
+                        <div key={index} className="review">
+                          <p>
+                            {rev.comment}{" "}
+                            <span className="ms-2">
+                              {rev.rating}{" "}
+                              <i class="fa-solid fa-star text-warning" />
+                            </span>
+                          </p>
+                        </div>
+                      ))}
+                    </>
+                  )}
+
                   {user.role === "user" && (
                     <Button
                       variant="primary"
@@ -152,6 +216,18 @@ function Dashboard({
                       View Ride
                     </Button>
                   )}
+
+                  <Button
+                    variant="primary"
+                    className="bg-primary w-50"
+                    onClick={() => {
+                      setReviewShow(true);
+                      setSelectedRide(ride);
+                      setReview({ rideId: ride.id });
+                    }}
+                  >
+                    Write a Review
+                  </Button>
                 </Card.Body>
               </Card>
             </Col>
@@ -308,6 +384,46 @@ function Dashboard({
             </Card>
           </Col>
         </Row>
+
+        <Modal show={reviewShow} onHide={() => setReviewShow(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Write a Review for {selectedRide?.name}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={handleReviewSubmit}>
+              <Form.Group controlId="formRating">
+                <Form.Label>Rating (1-5)</Form.Label>
+                <Form.Control
+                  type="number"
+                  min="1"
+                  max="5"
+                  name="rating"
+                  value={review.rating}
+                  onChange={handleReviewChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group controlId="formComment">
+                <Form.Label>Comment</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  name="comment"
+                  value={review.comment}
+                  onChange={handleReviewChange}
+                  required
+                />
+              </Form.Group>
+              <Button
+                variant="primary"
+                type="submit"
+                className="bg-primary mt-2 w-100"
+              >
+                Submit Review
+              </Button>
+            </Form>
+          </Modal.Body>
+        </Modal>
 
         <Row className="mt-4">
           {/* Map Placeholder */}
