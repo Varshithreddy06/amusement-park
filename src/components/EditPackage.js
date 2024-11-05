@@ -5,7 +5,7 @@ import Select from "react-select"; // Import react-select
 import { db } from "../firebase/config";
 import { ref, set, get } from "firebase/database";
 
-const EditPackage = ({ user, packages, setPackages }) => {
+const EditPackage = ({ user, packages, setPackages, addNotification }) => {
   const [packageDetails, setPackageDetails] = useState({
     name: "",
     description: "",
@@ -87,6 +87,10 @@ const EditPackage = ({ user, packages, setPackages }) => {
 
     setPackages((prevPackages) =>
       prevPackages.map((pkg) => (pkg.id === id ? updatedPackage : pkg))
+    );
+
+    addNotification(
+      `Package: ${packageDetails.name} has been update! Please find the new details in Rides tab.`
     );
 
     setError("");

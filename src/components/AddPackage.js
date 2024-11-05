@@ -5,7 +5,7 @@ import Select from "react-select"; // Import react-select
 import { db } from "../firebase/config";
 import { ref, push, get } from "firebase/database";
 
-const AddPackage = ({ setPackages }) => {
+const AddPackage = ({ setPackages, addNotification }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -51,6 +51,7 @@ const AddPackage = ({ setPackages }) => {
       return;
     }
 
+    const createdAt = new Date().toISOString();
     const newPackage = {
       name,
       description,
@@ -58,6 +59,7 @@ const AddPackage = ({ setPackages }) => {
       duration,
       image,
       rides: selectedRides.map((ride) => ride.value), // Include selected rides in the package data
+      createdAt,
     };
 
     const packagesRef = ref(db, "packages");
@@ -67,6 +69,10 @@ const AddPackage = ({ setPackages }) => {
       ...prevPackages,
       { id: newPackageRef.key, ...newPackage },
     ]);
+
+    addNotification(
+      `A new package ${name} has been added! Please check it in Rides tab.`
+    );
 
     navigate("/packages");
   };

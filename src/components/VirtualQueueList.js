@@ -19,13 +19,16 @@ const VirtualQueueList = ({ rideId }) => {
 
   return (
     <div>
-      <h3>Queue for this Ride</h3>
+      <h6>Queue for this Ride</h6>
       <ul>
         {queue.map((entry, index) => (
           <li key={entry.userId}>
             {`User Name: ${entry.userName} - Position: ${index + 1}`}
           </li>
         ))}
+        {
+          queue?.length === 0 && ("Ride is empty")
+        }
       </ul>
     </div>
   );
