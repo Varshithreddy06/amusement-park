@@ -165,10 +165,10 @@ function Dashboard({
     <Container fluid className="dashboard p-0 m-0">
       {/* Hero Section */}
       <section className="hero-section">
-        <h1 className="hero-title secondary-color">
+        <h1 className="hero-title text-dark">
           Welcome to <span className="primary-color">AMUSEMENT PARK</span>
         </h1>
-        <p className="hero-description secondary-color">
+        <p className="hero-description text-dark">
           Experience the thrill of our rides and the joy of our packages.
           Unforgettable memories await you!
         </p>
@@ -214,13 +214,13 @@ function Dashboard({
       </section>
 
       <section id="rides" className="p-5">
-        <h3 className="text-center secondary-color mb-2">RIDES</h3>{" "}
+        <h3 className="text-center text-dark mb-2">RIDES</h3>{" "}
         {/* Rides Heading */}
         <Row>
           {rides.slice(0, 3).map((ride) => (
             <Col key={ride.id} md={4}>
               <Card className="mb-3 rides">
-                <Card.Img variant="top" src={ride.image} />
+                <Card.Img variant="top" src={ride.image} alt={ride.name} />
                 <Card.Body>
                   <Card.Title>{ride.name}</Card.Title>
                   <Card.Text>{ride.description}</Card.Text>
@@ -234,7 +234,7 @@ function Dashboard({
                             {rev.comment}{" "}
                             <span className="ms-2">
                               {rev.rating}{" "}
-                              <i class="fa-solid fa-star text-warning" />
+                              <em class="fa-solid fa-star text-warning" />
                             </span>
                           </p>
                         </div>
@@ -301,7 +301,7 @@ function Dashboard({
       )}
 
       <section id="packages" className="w-100 p-0 m-0 my-5 p-3">
-        <h3 className="text-center secondary-color mb-2">PACKAGES</h3>{" "}
+        <h3 className="text-center text-dark mb-2">PACKAGES</h3>{" "}
         <Row className="flex-row justify-content-center">
           {packages.slice(0, 2).map((pkg, index) => (
             <Col key={index} md={4}>
@@ -314,11 +314,11 @@ function Dashboard({
                   <Card.Title className="mt-2">{pkg.name}</Card.Title>
                   <Card.Text>{pkg.description}</Card.Text>
                   <Card.Text className="d-flex align-items-center">
-                    <i className="fa-solid fa-dollar-sign me-2 secondary-color"></i>
+                    <em className="fa-solid fa-dollar-sign me-2 secondary-color"></em>
                     <strong className="me-1">Price:</strong> {pkg.price}
                   </Card.Text>
                   <Card.Text className="d-flex align-items-center">
-                    <i className="fa-solid fa-clock me-2 secondary-color"></i>
+                    <em className="fa-solid fa-clock me-2 secondary-color"></em>
                     <strong className="me-1">Duration:</strong> {pkg.duration}
                   </Card.Text>
                   <Button

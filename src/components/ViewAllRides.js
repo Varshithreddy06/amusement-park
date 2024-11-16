@@ -113,7 +113,7 @@ const ViewAllRides = ({
         {user.role === "admin" && (
           <Link to="/add-ride">
             <Button className="bg-primary mb-4">
-              Add New Ride<i className="fa-solid fa-plus ms-2"></i>
+              Add New Ride<em className="fa-solid fa-plus ms-2"></em>
             </Button>
           </Link>
         )}
@@ -122,7 +122,7 @@ const ViewAllRides = ({
         {rides.map((ride) => (
           <Col key={ride.id} md={6} className="mb-3">
             <Card className="rides">
-              <Card.Img variant="top" src={ride.image} />
+              <Card.Img variant="top" src={ride.image} alt={ride.name} />
               <Card.Body>
                 <Card.Title>{ride.name}</Card.Title>
                 <Card.Text>{ride.description}</Card.Text>
@@ -143,13 +143,13 @@ const ViewAllRides = ({
                     onClick={() => joinQueue(ride)}
                     className="bg-success border-0 me-2"
                   >
-                    Join Queue <i className="fa-solid fa-ticket"></i>
+                    Join Queue <em className="fa-solid fa-ticket"></em>
                   </Button>
                   <Button
                     onClick={() => leaveQueue(ride)}
                     className="bg-danger border-0 me-2"
                   >
-                    Leave Queue <i className="fa-solid fa-times"></i>
+                    Leave Queue <em className="fa-solid fa-times"></em>
                   </Button>
                   {user.role === "admin" && (
                     <>
@@ -159,13 +159,13 @@ const ViewAllRides = ({
                         className="bg-secondary border-0 me-2"
                       >
                         Edit Ride{" "}
-                        <i className="fa-regular fa-pen-to-square"></i>
+                        <em className="fa-regular fa-pen-to-square"></em>
                       </Button>
                       <Button
                         variant="danger"
                         onClick={() => handleDelete(ride)}
                       >
-                        Delete Ride <i className="fa-solid fa-trash"></i>
+                        Delete Ride <em className="fa-solid fa-trash"></em>
                       </Button>
                     </>
                   )}

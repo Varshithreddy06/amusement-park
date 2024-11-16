@@ -139,6 +139,7 @@ const AddPackage = ({ setPackages, addNotification }) => {
               placeholder="Enter image URL"
               value={image}
               onChange={(e) => setImage(e.target.value)}
+              aria-label="Image URL" // Adds extra accessibility
             />
           </Form.Group>
 

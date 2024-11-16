@@ -51,7 +51,7 @@ const ViewAllPackages = ({
         {user.role === "admin" && (
           <Link to="/add-package">
             <Button className="bg-primary mb-4">
-              Add New Package <i className="fa-solid fa-plus ms-2"></i>
+              Add New Package <em className="fa-solid fa-plus ms-2"></em>
             </Button>
           </Link>
         )}
@@ -71,10 +71,10 @@ const ViewAllPackages = ({
                 </Card.Title>
                 <Card.Text className="text-muted">{pkg.description}</Card.Text>
                 <Card.Text className="d-flex align-items-center">
-                  <i
+                  <em
                     className="fa-solid fa-plane-departure me-2 secondary-color"
                     style={{ marginRight: "8px" }}
-                  ></i>
+                  ></em>
                   <strong className="me-1">Rides:</strong>
                   <div>
                     {pkg.rides.map((rideId, index) => {
@@ -94,11 +94,11 @@ const ViewAllPackages = ({
                   </div>
                 </Card.Text>
                 <Card.Text className="d-flex align-items-center">
-                  <i className="fa-solid fa-dollar-sign me-2 secondary-color"></i>
+                  <em className="fa-solid fa-dollar-sign me-2 secondary-color"></em>
                   <strong className="me-1">Price:</strong> {pkg.price}
                 </Card.Text>
                 <Card.Text className="d-flex align-items-center">
-                  <i className="fa-solid fa-clock me-2 secondary-color"></i>
+                  <em className="fa-solid fa-clock me-2 secondary-color"></em>
                   <strong className="me-1">Duration:</strong> {pkg.duration}
                 </Card.Text>
                 {user.role === "admin" && (
@@ -109,10 +109,10 @@ const ViewAllPackages = ({
                       className="bg-secondary border-0 me-2"
                     >
                       Edit{" "}
-                      <i className="fa-regular fa-pen-to-square color-white"></i>
+                      <em className="fa-regular fa-pen-to-square color-white"></em>
                     </Button>
                     <Button variant="danger" onClick={() => handleDelete(pkg)}>
-                      Delete <i className="fa-solid fa-trash color-white"></i>
+                      Delete <em className="fa-solid fa-trash color-white"></em>
                     </Button>
                   </div>
                 )}

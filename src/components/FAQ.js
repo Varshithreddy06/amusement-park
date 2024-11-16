@@ -129,7 +129,7 @@ const FAQ = ({ user, faqs, setFaqs, loadFAQ }) => {
               {faq.question}{" "}
               {user.role === "admin" && (
                 <Button variant="link" onClick={() => handleEdit(index)}>
-                  <i class="fa-regular fa-pen-to-square secondary-color"></i>
+                  <em class="fa-regular fa-pen-to-square secondary-color"></em>
                 </Button>
               )}
             </Accordion.Header>

@@ -37,6 +37,10 @@ const NavBar = ({ user }) => {
                 to="/view-all-rides"
                 className="d-flex justify-content-center align-items-center primary-color"
                 onClick={handleNavLinkClick} // Close notifications on click
+                aria-label="View all rides"
+                aria-current={
+                  location.pathname === "/view-all-rides" ? "page" : undefined
+                }
               >
                 {location.pathname === "/view-all-rides" ? (
                   <span className="text-decoration-underline">Rides</span>
@@ -50,6 +54,10 @@ const NavBar = ({ user }) => {
                 to="/packages"
                 className="d-flex justify-content-center align-items-center primary-color"
                 onClick={handleNavLinkClick} // Close notifications on click
+                aria-label="View packages"
+                aria-current={
+                  location.pathname === "/packages" ? "page" : undefined
+                }
               >
                 {location.pathname === "/packages" ? (
                   <span className="text-decoration-underline">Packages</span>
@@ -63,6 +71,8 @@ const NavBar = ({ user }) => {
                 to="/faq"
                 className="d-flex justify-content-center align-items-center primary-color"
                 onClick={handleNavLinkClick} // Close notifications on click
+                aria-label="FAQ"
+                aria-current={location.pathname === "/faq" ? "page" : undefined}
               >
                 {location.pathname === "/faq" ? (
                   <span className="text-decoration-underline">FAQ</span>
@@ -77,6 +87,10 @@ const NavBar = ({ user }) => {
                   to="/analytics"
                   className="d-flex justify-content-center align-items-center primary-color"
                   onClick={handleNavLinkClick} // Close notifications on click
+                  aria-label="Analytics"
+                  aria-current={
+                    location.pathname === "/analytics" ? "page" : undefined
+                  }
                 >
                   {location.pathname === "/analytics" ? (
                     <span className="text-decoration-underline">Analytics</span>
@@ -91,6 +105,10 @@ const NavBar = ({ user }) => {
                 to="/messages"
                 className="d-flex justify-content-center align-items-center primary-color"
                 onClick={handleNavLinkClick} // Close notifications on click
+                aria-label="Messages"
+                aria-current={
+                  location.pathname === "/messages" ? "page" : undefined
+                }
               >
                 {location.pathname === "/messages" ? (
                   <span className="text-decoration-underline">Messages</span>
@@ -99,24 +117,30 @@ const NavBar = ({ user }) => {
                 )}
               </Nav.Link>
 
-              {
-                user.role==='user' && (
-                  <Nav.Link
-                    as={Link}
-                    to="/bookings"
-                    className="d-flex justify-content-center align-items-center primary-color"
-                    onClick={handleNavLinkClick} // Close notifications on click
-                  >
-                    {location.pathname === "/bookings" ? (
-                      <span className="text-decoration-underline">Bookings</span>
-                    ) : (
-                      <span className="text-decoration-none">Bookings</span>
-                    )}
-                  </Nav.Link>)
-              }
+              {user.role === "user" && (
+                <Nav.Link
+                  as={Link}
+                  to="/bookings"
+                  className="d-flex justify-content-center align-items-center primary-color"
+                  onClick={handleNavLinkClick} // Close notifications on click
+                  aria-label="Bookings"
+                  aria-current={
+                    location.pathname === "/bookings" ? "page" : undefined
+                  }
+                >
+                  {location.pathname === "/bookings" ? (
+                    <span className="text-decoration-underline">Bookings</span>
+                  ) : (
+                    <span className="text-decoration-none">Bookings</span>
+                  )}
+                </Nav.Link>
+              )}
 
               <Nav.Link className="primary-color" onClick={toggleNotifications}>
-                <i className="fa-solid fa-bell"></i>
+                <em
+                  className="fa-solid fa-bell"
+                  aria-label="Notifications"
+                ></em>
               </Nav.Link>
 
               {notificationsVisible && (
@@ -141,9 +165,10 @@ const NavBar = ({ user }) => {
                   to="/logout"
                   style={{ color: "#000" }}
                   onClick={handleNavLinkClick}
+                  aria-label="Logout"
                 >
                   Logout
-                  <i className="fa-solid fa-arrow-right-from-bracket ms-2"></i>
+                  <em className="fa-solid fa-arrow-right-from-bracket ms-2"></em>
                 </Nav.Link>
               </div>
             </Nav>
@@ -156,8 +181,9 @@ const NavBar = ({ user }) => {
               to="/register"
               className="primary-color"
               onClick={handleNavLinkClick}
+              aria-label="Register"
             >
-              Register <i className="fa-solid fa-right-to-bracket"></i>
+              Register <em className="fa-solid fa-right-to-bracket"></em>
             </Nav.Link>
           </Nav>
         )}
@@ -169,8 +195,9 @@ const NavBar = ({ user }) => {
               to="/login"
               className="primary-color"
               onClick={handleNavLinkClick}
+              aria-label="Login"
             >
-              Login <i className="fa-solid fa-right-to-bracket"></i>
+              Login <em className="fa-solid fa-right-to-bracket"></em>
             </Nav.Link>
           </Nav>
         )}

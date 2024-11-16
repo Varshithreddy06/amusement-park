@@ -160,6 +160,7 @@ const EditPackage = ({ user, packages, setPackages, addNotification }) => {
               value={packageDetails.image}
               onChange={handleChange}
               placeholder="Enter image URL"
+              aria-label="Image URL"
             />
           </Form.Group>
 
