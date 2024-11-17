@@ -165,9 +165,9 @@ function Dashboard({
     <Container fluid className="dashboard p-0 m-0">
       {/* Hero Section */}
       <section className="hero-section">
-        <h1 className="hero-title text-dark">
+        <h2 className="hero-title text-dark">
           Welcome to <span className="primary-color">AMUSEMENT PARK</span>
-        </h1>
+        </h2>
         <p className="hero-description text-dark">
           Experience the thrill of our rides and the joy of our packages.
           Unforgettable memories await you!
@@ -349,7 +349,7 @@ function Dashboard({
       )}
 
       <section id="contact" className="vw-100 bg-white p-0 m-0 p-5">
-        <h2 className="text-center mb-4">Contact Us</h2>
+        <h3 className="text-center mb-4">Contact Us</h3>
 
         <Row>
           <Col md={6} className="mb-4">

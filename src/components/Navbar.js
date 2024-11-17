@@ -137,6 +137,7 @@ const NavBar = ({ user }) => {
               )}
 
               <Nav.Link className="primary-color" onClick={toggleNotifications}>
+                <span className="d-none">Notifications</span>
                 <em
                   className="fa-solid fa-bell"
                   aria-label="Notifications"

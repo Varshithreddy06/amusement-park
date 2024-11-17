@@ -48,6 +48,14 @@ const Login = ({ user, setUser }) => {
             role: users[id].role,
           });
 
+          console.log({
+            id, // Adding the user ID here
+            name: users[id].name,
+            email: users[id].email,
+            dateOfBirth: users[id].dateOfBirth,
+            role: users[id].role,
+          });
+
           setRedirect(true);
           break;
         }

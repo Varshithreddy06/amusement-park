@@ -23,7 +23,13 @@ import { db } from "./firebase/config";
 import { ref, get, onValue, push, set } from "firebase/database";
 
 function App() {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({
+    id: "-O9GDCSnwvMW2upIU17l",
+    name: "Varshit",
+    email: "varshit@gmail.com",
+    dateOfBirth: "2001-01-01",
+    role: "admin",
+  });
   const [rides, setRides] = useState([]);
   const [packages, setPackages] = useState([]);
 
@@ -281,9 +287,7 @@ function App() {
           }
         />
 
-        <Route path="/bookings" element={
-          <Bookings user={user} />
-        } />
+        <Route path="/bookings" element={<Bookings user={user} />} />
 
         <Route path="/messages" element={<Messages user={user} />} />
       </Routes>

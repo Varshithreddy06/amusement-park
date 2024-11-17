@@ -95,7 +95,11 @@ const AddPackage = ({ setPackages, addNotification }) => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
+              aria-describedby="packageNameHelp"
             />
+            <small id="packageNameHelp" className="text-muted">
+              Enter the name of the package (e.g., Family Fun Package).
+            </small>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="packageDescription">
@@ -107,7 +111,12 @@ const AddPackage = ({ setPackages, addNotification }) => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
+              aria-describedby="packageDescriptionHelp"
             />
+            <small id="packageDescriptionHelp" className="text-muted">
+              Describe what the package includes (e.g., Includes 5 rides and
+              free snacks).
+            </small>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="packagePrice">
@@ -118,18 +127,26 @@ const AddPackage = ({ setPackages, addNotification }) => {
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               required
+              aria-describedby="packagePriceHelp"
             />
+            <small id="packagePriceHelp" className="text-muted">
+              Specify the cost of the package (e.g., 50 for a day package).
+            </small>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="packageDuration">
             <Form.Label>Duration</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Enter package duration (e.g., 3 days)"
+              placeholder="Enter package duration"
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
               required
+              aria-describedby="packageDurationHelp"
             />
+            <small id="packageDurationHelp" className="text-muted">
+              Enter the duration of the package (e.g., 3 days, 1 week).
+            </small>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="packageImage">
@@ -139,8 +156,13 @@ const AddPackage = ({ setPackages, addNotification }) => {
               placeholder="Enter image URL"
               value={image}
               onChange={(e) => setImage(e.target.value)}
-              aria-label="Image URL" // Adds extra accessibility
+              required
+              aria-describedby="packageImageHelp"
             />
+            <small id="packageImageHelp" className="text-muted">
+              Provide a link to the package banner (e.g.,
+              https://example.com/image.jpg).
+            </small>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="packageRides">
@@ -151,7 +173,12 @@ const AddPackage = ({ setPackages, addNotification }) => {
               value={selectedRides}
               onChange={setSelectedRides}
               placeholder="Select rides..."
+              aria-label="Select rides"
+              aria-describedby="packageRidesHelp"
             />
+            <small id="packageRidesHelp" className="text-muted">
+              Choose rides included in the package.
+            </small>
           </Form.Group>
 
           <div className="d-flex justify-content-center mt-3">
