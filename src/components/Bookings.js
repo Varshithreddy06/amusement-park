@@ -12,11 +12,15 @@ const ViewAllBookings = ({ user }) => {
     const snapshot = await get(dbRef);
     if (snapshot.exists()) {
       const bookingsData = snapshot.val();
-      const tempBookings = Object.keys(bookingsData).map((id) => ({
-        ...bookingsData[id],
-        id,
-        date: new Date(bookingsData[id].timestamp).toISOString().split("T")[0],
-      }));
+      const tempBookings = Object.keys(bookingsData)
+        .map((id) => ({
+          ...bookingsData[id],
+          id,
+          date: new Date(bookingsData[id].timestamp)
+            .toISOString()
+            .split("T")[0],
+        }))
+        .filter((booking) => booking.userId === user.id);
       setBookings(tempBookings);
     } else {
       setBookings([]);
@@ -56,6 +60,9 @@ const ViewAllBookings = ({ user }) => {
             </Card>
           </Col>
         ))}
+        {bookings?.length === 0 && (
+          <span className="ms-2">No bookings available</span>
+        )}
       </Row>
     </Container>
   );
