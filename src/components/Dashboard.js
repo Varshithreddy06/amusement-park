@@ -78,6 +78,8 @@ function Dashboard({
         userId: user.id,
         userName: user.name,
         timestamp: Date.now(),
+        img: pkg.image,
+        packageName: pkg.name
       });
       setPackageBookingShow(true); // Show package booking confirmation dialog
     } catch (error) {
